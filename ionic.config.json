@@ -1,0 +1,7 @@
+{
+  "name": "video-call",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

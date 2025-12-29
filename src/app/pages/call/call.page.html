@@ -1,0 +1,74 @@
+<ion-content fullscreen class="call-container">
+  <!-- Remote video (main background) -->
+  <video #remote autoplay playsinline muted class="remote-video"></video>
+
+  <!-- Header with call info -->
+  <div class="call-header">
+    <div class="call-info-card">
+      <div class="caller-avatar">
+        <ion-icon name="person-circle"></ion-icon>
+      </div>
+      <div class="caller-details">
+        <h2 class="caller-name">{{ remoteUserName }}</h2>
+        <div class="call-meta">
+          <span class="room-id">{{ roomId }}</span>
+          <span class="call-duration">{{ callDuration }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local video (PiP - Draggable) -->
+  <div class="local-video-wrapper" #localVideoWrapper>
+    <video #local autoplay muted playsinline class="local-video"></video>
+  </div>
+
+  <!-- Control buttons -->
+  <div class="call-controls">
+    <!-- Mute button -->
+    <button 
+      class="control-btn" 
+      [class.active]="isMuted"
+      (click)="toggleMute()"
+      [attr.aria-pressed]="isMuted"
+      title="Mute microphone">
+      <ion-icon [name]="isMuted ? 'mic-off' : 'mic'"></ion-icon>
+    </button>
+
+    <!-- Camera button -->
+    <button 
+      class="control-btn"
+      [class.active]="!isVideoCameraOn"
+      (click)="toggleVideoCamera()"
+      [attr.aria-pressed]="!isVideoCameraOn"
+      title="Toggle camera">
+      <ion-icon [name]="isVideoCameraOn ? 'videocam' : 'videocam-off'"></ion-icon>
+    </button>
+
+    <!-- Speaker button -->
+    <button 
+      class="control-btn"
+      [class.active]="isSpeakerOn"
+      (click)="toggleSpeaker()"
+      [attr.aria-pressed]="isSpeakerOn"
+      title="Toggle speaker">
+      <ion-icon [name]="isSpeakerOn ? 'volume-high' : 'volume-low'"></ion-icon>
+    </button>
+
+    <!-- Switch camera button -->
+    <button 
+      class="control-btn"
+      (click)="switchCamera()"
+      title="Switch camera">
+      <ion-icon name="camera-reverse"></ion-icon>
+    </button>
+
+    <!-- End call button -->
+    <button 
+      class="control-btn end-call-btn"
+      (click)="leave()"
+      title="End call">
+      <ion-icon name="call"></ion-icon>
+    </button>
+  </div>
+</ion-content>

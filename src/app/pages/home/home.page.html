@@ -1,0 +1,44 @@
+<ion-content class="home-container" scrollEvents="false">
+
+  <!-- Main Content -->
+  <ion-grid fixed class="main-grid">
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col sizeLg="5" sizeMd="6" sizeSm="10" sizeXs="12" class="content-col">
+
+        <!-- Info Card -->
+        <ion-card class="info-card">
+
+          <ion-card-content>
+            <!-- Room ID Input -->
+            <div class="input-container">
+              <ion-icon name="link" class="input-icon"></ion-icon>
+              <ion-input 
+                type="text" 
+                placeholder="Room ID"
+                [(ngModel)]="roomId"
+                (keyup.enter)="startCall()"
+                class="room-input"
+                clearInput>
+              </ion-input>
+            </div>
+
+            <!-- CTA Button -->
+            <ion-button 
+              #startButton 
+              expand="block"
+              shape="round"
+              class="cta-button"
+              (click)="startCall()"
+              [disabled]="isLoading || !roomId.trim()">
+              <ion-icon name="call" slot="start"></ion-icon>
+              <span *ngIf="!isLoading">Start Call</span>
+              <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
