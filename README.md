@@ -1,4 +1,4 @@
-# CallApp - WebRTC Video Calling Application
+# Video Call App - WebRTC Video Calling Application
 
 Professional peer-to-peer video calling app built with Ionic + Angular + WebRTC. Deploy as web app, iOS, or Android.
 
