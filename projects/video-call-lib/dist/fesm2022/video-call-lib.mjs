@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import * as i2 from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
 let SIGNALING_URL = 'http://localhost:3000';
 const getSignalingUrl = () => SIGNALING_URL;
@@ -353,12 +354,18 @@ class VideoCallLibModule {
             AuthService,
             Signaling,
             AuthGuard
-        ], imports: [CommonModule, HttpClientModule] }); }
+        ], imports: [CommonModule,
+            HttpClientModule,
+            IonicModule] }); }
 }
 (() => { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(VideoCallLibModule, [{
         type: NgModule,
         args: [{
-                imports: [CommonModule, HttpClientModule],
+                imports: [
+                    CommonModule,
+                    HttpClientModule,
+                    IonicModule
+                ],
                 providers: [
                     WebRTCService,
                     CallStateService,
@@ -368,7 +375,9 @@ class VideoCallLibModule {
                 ]
             }]
     }], null, null); })();
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(VideoCallLibModule, { imports: [CommonModule, HttpClientModule] }); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && i0.ɵɵsetNgModuleScope(VideoCallLibModule, { imports: [CommonModule,
+        HttpClientModule,
+        IonicModule] }); })();
 
 /*
  * Public API Surface of video-call-lib

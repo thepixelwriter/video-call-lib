@@ -1,6 +1,6 @@
-# Video Call Library (@video-call-lib)
+# Video Call Library
 
-A reusable Angular/Ionic library for WebRTC peer-to-peer video calling functionality. This library provides all the necessary services, guards, and utilities to integrate video calling into any Angular or Ionic application.
+A reusable Angular/Ionic library for WebRTC peer-to-peer video calling functionality. This library provides all the necessary services and utilities to integrate video calling into any Angular or Ionic application.
 
 ## Features
 
@@ -15,77 +15,41 @@ A reusable Angular/Ionic library for WebRTC peer-to-peer video calling functiona
 
 ## Installation
 
-### Prerequisites
-
-- Angular 20+
-- RxJS 7.8+
-- Socket.IO Client 4.8+
-- Capacitor 8+ (optional, for mobile)
-
-### Install from npm
-
 ```bash
-npm install @video-call-lib socket.io-client
+npm install video-call-lib socket.io-client
 ```
 
-### Install from Local
-
-If developing locally:
-
-```bash
-npm install ../path/to/video-call-lib
-```
-
-## Usage
+## Quick Start
 
 ### 1. Import the Module
 
-In your app module:
-
 ```typescript
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { VideoCallLibModule } from '@video-call-lib';
-
-import { AppComponent } from './app.component';
+import { VideoCallLibModule } from 'video-call-lib';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    VideoCallLibModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [VideoCallLibModule]
 })
 export class AppModule { }
 ```
 
 ### 2. Configure Signaling Server
 
-Set the signaling server URL (do this early in your app initialization):
-
 ```typescript
-import { setSignalingUrl } from '@video-call-lib';
+import { setSignalingUrl } from 'video-call-lib';
 
-export class AppComponent implements OnInit {
-  constructor() {
-    // Configure for development
-    setSignalingUrl('http://localhost:3000');
-    
-    // Or for production
-    // setSignalingUrl('https://your-signaling-server.com');
-  }
-}
+// In your app initialization (app.component.ts or main.ts)
+setSignalingUrl('http://localhost:3000');
+
+// For production
+// setSignalingUrl('https://your-signaling-server.com');
 ```
 
-### 3. Use WebRTC Service in a Component
+### 3. Use WebRTC Service
 
 ```typescript
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { WebRTCService } from '@video-call-lib';
+import { WebRTCService } from 'video-call-lib';
 
 @Component({
   selector: 'app-call',
@@ -97,10 +61,6 @@ import { WebRTCService } from '@video-call-lib';
       
       <video #localVideo autoplay muted playsinline></video>
       <video #remoteVideo autoplay playsinline></video>
-      
-      <button (click)="toggleAudio()">Toggle Audio</button>
-      <button (click)="toggleVideo()">Toggle Video</button>
-      <button (click)="switchCamera()">Switch Camera</button>
     </div>
   `
 })
@@ -113,31 +73,15 @@ export class CallComponent {
   constructor(private webrtc: WebRTCService) {}
 
   async startCall() {
-    try {
-      await this.webrtc.init(
-        this.roomId,
-        this.localVideo.nativeElement,
-        this.remoteVideo.nativeElement
-      );
-    } catch (error) {
-      console.error('Failed to start call:', error);
-    }
+    await this.webrtc.init(
+      this.roomId,
+      this.localVideo.nativeElement,
+      this.remoteVideo.nativeElement
+    );
   }
 
   endCall() {
     this.webrtc.leave();
-  }
-
-  toggleAudio() {
-    // Toggle audio mute
-  }
-
-  toggleVideo() {
-    // Toggle video
-  }
-
-  switchCamera() {
-    this.webrtc.switchCamera();
   }
 }
 ```
@@ -145,8 +89,6 @@ export class CallComponent {
 ## API Reference
 
 ### WebRTCService
-
-#### Methods
 
 ```typescript
 // Initialize a call
@@ -158,17 +100,17 @@ leave(): void
 // Switch between front and rear camera
 async switchCamera(): Promise<void>
 
-// Pause all tracks
-pause(): void
-
-// Resume all tracks
-resume(): void
-
 // Toggle audio track
 toggleAudio(enabled: boolean): void
 
 // Toggle video track
 toggleVideo(enabled: boolean): void
+
+// Pause all tracks
+pause(): void
+
+// Resume all tracks
+resume(): void
 ```
 
 ### CallStateService
@@ -179,32 +121,6 @@ setRoom(id: string): void
 
 // Get room ID as observable
 getRoom(): Observable<string | null>
-```
-
-### AuthService
-
-```typescript
-// Login (dummy implementation)
-login(): void
-
-// Logout
-logout(): void
-
-// Check if logged in
-isLoggedIn(): boolean
-```
-
-### Socket Functions
-
-```typescript
-// Get current signaling URL
-getSignalingUrl(): string
-
-// Set signaling server URL
-setSignalingUrl(url: string): void
-
-// Socket instance
-export const socket: Socket
 ```
 
 ### AuthGuard
@@ -221,23 +137,31 @@ const routes: Routes = [
 ];
 ```
 
-## Configuration for Different Platforms
+## Signaling Server
 
-### Web Development
+The library requires a WebRTC signaling server for connection negotiation.
+
+### Quick Start
+
+```bash
+# Start the signaling server
+node server.js
+
+# Server runs on http://localhost:3000
+```
+
+### Server Configuration
+
+Configure your signaling server URL based on your environment:
 
 ```typescript
+// Development
 setSignalingUrl('http://localhost:3000');
-```
 
-### Android Emulator
-
-```typescript
+// Android Emulator
 setSignalingUrl('http://10.0.2.2:3000');
-```
 
-### Production
-
-```typescript
+// Production
 setSignalingUrl('https://your-signaling-server.com');
 ```
 
@@ -245,7 +169,7 @@ setSignalingUrl('https://your-signaling-server.com');
 
 ```typescript
 import { environment } from './environments/environment';
-import { setSignalingUrl } from '@video-call-lib';
+import { setSignalingUrl } from 'video-call-lib';
 
 @NgModule({})
 export class AppModule {
@@ -255,59 +179,6 @@ export class AppModule {
 }
 ```
 
-## Running the Signaling Server
-
-The library requires a separate WebRTC signaling server. See [server/README.md](../../server/README.md) for setup instructions.
-
-Quick start:
-
-```bash
-cd server
-npm install
-npm start
-```
-
-## Building the Library
-
-### Development Build
-
-```bash
-npm run build:lib
-```
-
-### Production Build
-
-```bash
-npm run build:lib:prod
-```
-
-Output will be in `dist/video-call-lib/`.
-
-## Publishing to npm
-
-1. Update version in [package.json](package.json):
-   ```json
-   {
-     "name": "@your-org/video-call-lib",
-     "version": "1.0.0"
-   }
-   ```
-
-2. Build the library:
-   ```bash
-   npm run build:lib:prod
-   ```
-
-3. Navigate to dist folder:
-   ```bash
-   cd dist/video-call-lib
-   ```
-
-4. Publish:
-   ```bash
-   npm publish --access public
-   ```
-
 ## Browser Support
 
 - Chrome/Edge 90+
@@ -316,49 +187,13 @@ Output will be in `dist/video-call-lib/`.
 - Android Chrome 90+
 - iOS Safari 14.5+
 
-## Troubleshooting
+## Requirements
 
-### Camera/Microphone Not Accessible
-
-Ensure HTTPS is used in production (WebRTC requires secure context):
-
-```typescript
-// Check if secure context
-if (!window.isSecureContext) {
-  console.error('Camera access requires HTTPS');
-}
-```
-
-### Connection Issues
-
-1. Verify signaling server is running
-2. Check that `SIGNALING_URL` is correctly configured
-3. Ensure firewall allows WebSocket connections
-4. Check browser console for specific errors
-
-### No Remote Video
-
-1. Ensure both peers are in the same room
-2. Check ICE server availability
-3. Verify peer connection state in console logs
-4. Check for CORS issues with ICE server endpoint
-
-## Example Project
-
-See the demo application in [src/](../../src) for a complete working example.
-
-## Contributing
-
-Contributions welcome! Please ensure:
-- TypeScript strict mode compliance
-- TSLint passes
-- Tests are written
-- Documentation is updated
+- Angular 20+
+- RxJS 7.8+
+- Socket.IO Client 4.8+
+- Capacitor 8+ (optional, for mobile)
 
 ## License
 
 MIT
-
-## Support
-
-For issues, questions, or feature requests, please open an issue on GitHub.

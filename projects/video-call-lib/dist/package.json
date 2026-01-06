@@ -1,6 +1,6 @@
 {
   "name": "video-call-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reusable Angular/Ionic library for WebRTC peer-to-peer video calling with Socket.IO signaling",
   "author": "Gaurav Sharma <gauravsharma8813@gmail.com>",
   "license": "MIT",
@@ -35,22 +35,5 @@
     "@ionic/angular": {
       "optional": true
     }
-  },
-  "module": "fesm2022/video-call-lib.mjs",
-  "typings": "index.d.ts",
-  "exports": {
-    "./package.json": {
-      "default": "./package.json"
-    },
-    ".": {
-      "types": "./index.d.ts",
-      "esm2022": "./esm2022/video-call-lib.mjs",
-      "esm": "./esm2022/video-call-lib.mjs",
-      "default": "./fesm2022/video-call-lib.mjs"
-    }
-  },
-  "sideEffects": false,
-  "dependencies": {
-    "tslib": "^2.3.0"
   }
 }

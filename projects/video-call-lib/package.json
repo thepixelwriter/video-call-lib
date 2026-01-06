@@ -1,6 +1,6 @@
 {
   "name": "video-call-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reusable Angular/Ionic library for WebRTC peer-to-peer video calling with Socket.IO signaling",
   "author": "Gaurav Sharma <gauravsharma8813@gmail.com>",
   "license": "MIT",
