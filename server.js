@@ -42,56 +42,68 @@ app.get('/ice', (req, res) => {
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log('✓ New user connected:', socket.id);
 
   socket.on('join', ({ room }) => {
-    console.log(`User ${socket.id} joining room: ${room}`);
+    console.log(`📍 User ${socket.id} attempting to join room: ${room}`);
     
     // Get the number of users in the room before joining
     const roomMembers = io.sockets.adapter.rooms.get(room);
     const usersInRoom = roomMembers ? roomMembers.size : 0;
     
-    console.log(`Users in room ${room} before join: ${usersInRoom}`);
+    console.log(`   Users in room "${room}" BEFORE this join: ${usersInRoom}`);
     
     // Join the room
     socket.join(room);
+    console.log(`   ✓ User ${socket.id} successfully joined room "${room}"`);
     
-    // If there's already a user in the room, notify ONLY the existing users (not the new peer)
+    // Get updated count
+    const updatedRoomMembers = io.sockets.adapter.rooms.get(room);
+    const updatedCount = updatedRoomMembers ? updatedRoomMembers.size : 0;
+    console.log(`   Users in room "${room}" AFTER this join: ${updatedCount}`);
+    
+    // If there's already a user in the room, notify the existing user that a peer joined
     if (usersInRoom > 0) {
-      console.log(`Notifying existing users in ${room} that a peer joined`);
+      console.log(`   🔔 Notifying existing users in "${room}" that a peer joined`);
       socket.to(room).emit('peer-joined');
+      console.log(`   ✓ "peer-joined" event sent to other users in "${room}"`);
+    } else {
+      console.log(`   ℹ️  No existing users in "${room}" to notify`);
     }
   });
 
   socket.on('offer', ({ room, offer }) => {
-    console.log(`Relaying offer from ${socket.id} to room ${room}`);
-    console.log('Offer:', offer.type);
+    console.log(`📤 Relaying offer from ${socket.id} to room "${room}"`);
+    console.log(`   Offer type: ${offer.type}`);
     socket.to(room).emit('offer', { offer, from: socket.id });
+    console.log(`   ✓ Offer relayed`);
   });
 
   socket.on('answer', ({ room, answer }) => {
-    console.log(`Relaying answer from ${socket.id} to room ${room}`);
-    console.log('Answer:', answer.type);
+    console.log(`📤 Relaying answer from ${socket.id} to room "${room}"`);
+    console.log(`   Answer type: ${answer.type}`);
     socket.to(room).emit('answer', { answer, from: socket.id });
+    console.log(`   ✓ Answer relayed`);
   });
 
   socket.on('ice', ({ room, candidate }) => {
-    console.log(`Relaying ICE candidate from ${socket.id} to room ${room}`);
+    console.log(`🧊 Relaying ICE candidate from ${socket.id} to room "${room}"`);
     socket.to(room).emit('ice', { candidate, from: socket.id });
   });
 
   socket.on('leave', ({ room }) => {
-    console.log(`User ${socket.id} leaving room: ${room}`);
+    console.log(`👋 User ${socket.id} leaving room: "${room}"`);
     socket.leave(room);
     socket.to(room).emit('peer-left');
+    console.log(`   ✓ "peer-left" event sent to other users in "${room}"`);
   });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    console.log('✗ User disconnected:', socket.id);
   });
 
   socket.on('error', (error) => {
-    console.error('Socket error:', error);
+    console.error('❌ Socket error:', error);
   });
 });
 

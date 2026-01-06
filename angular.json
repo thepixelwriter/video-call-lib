@@ -3,6 +3,44 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "video-call-lib": {
+      "projectType": "library",
+      "schematics": {},
+      "root": "projects/video-call-lib",
+      "sourceRoot": "projects/video-call-lib/src",
+      "prefix": "vcl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/video-call-lib/tsconfig.lib.json",
+            "project": "projects/video-call-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/video-call-lib/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/video-call-lib/src/test.ts",
+            "tsConfig": "projects/video-call-lib/tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/video-call-lib/**/*.ts"
+            ]
+          }
+        }
+      }
+    },
     "app": {
       "projectType": "application",
       "schematics": {},

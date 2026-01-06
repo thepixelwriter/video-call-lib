@@ -83,9 +83,9 @@ export class CallPage implements OnInit, OnDestroy {
     document.addEventListener('mousemove', (e: MouseEvent) => this.onDrag(e));
     document.addEventListener('mouseup', () => this.onDragEnd());
     
-    // Touch support
-    element.addEventListener('touchstart', (e: TouchEvent) => this.onDragStartTouch(e));
-    document.addEventListener('touchmove', (e: TouchEvent) => this.onDragTouch(e));
+    // Touch support with passive: false for touchstart (allows preventDefault)
+    element.addEventListener('touchstart', (e: TouchEvent) => this.onDragStartTouch(e), { passive: false });
+    document.addEventListener('touchmove', (e: TouchEvent) => this.onDragTouch(e), { passive: false });
     document.addEventListener('touchend', () => this.onDragEnd());
   }
 

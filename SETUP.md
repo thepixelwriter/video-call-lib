@@ -2,19 +2,15 @@
 
 ## Server Setup
 
-### Step 1: Install Server Dependencies
+**The WebRTC Signaling Server is now a separate application.**
+
+### Step 1: Install and Start the Server (in `/server` folder)
+
+Navigate to the server directory:
 ```bash
+cd server
 npm install
-```
-
-This will install:
-- **express** - HTTP server framework
-- **socket.io** - Real-time bidirectional communication
-- **cors** - Cross-Origin Resource Sharing middleware
-
-### Step 2: Start the Signaling Server
-```bash
-npm run server
+npm start
 ```
 
 You should see:
@@ -23,8 +19,13 @@ You should see:
 Ready for peer-to-peer connections!
 ```
 
-### Step 3: Start the Ionic App (in a new terminal)
+For detailed server setup, see [server/README.md](server/README.md)
+
+### Step 2: Install App Dependencies and Start the Ionic App (in a new terminal)
+
+From the project root directory:
 ```bash
+npm install
 npm start
 ```
 

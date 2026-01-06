@@ -1,10 +1,24 @@
 import { io, Socket } from 'socket.io-client';
 import { Capacitor } from '@capacitor/core';
 
-const SIGNALING_URL =
-  Capacitor.getPlatform() === 'android'
-    ? 'http://192.168.1.10:3000'   // Android Emulator
-    : 'http://localhost:3000'; // Browser
+let SIGNALING_URL = 'http://localhost:3000';
+
+export const getSignalingUrl = () => SIGNALING_URL;
+
+export const setSignalingUrl = (url: string) => {
+  SIGNALING_URL = url;
+  console.log('✓ Signaling URL updated to:', SIGNALING_URL);
+};
+
+// Initialize based on platform
+const initializeSignalingUrl = () => {
+  const platform = Capacitor.getPlatform();
+  if (platform === 'android') {
+    SIGNALING_URL = 'http://192.168.1.10:3000'; // Android Emulator - update as needed
+  }
+};
+
+initializeSignalingUrl();
 
 export const socket: Socket = io(SIGNALING_URL, {
   transports: ['websocket'],
